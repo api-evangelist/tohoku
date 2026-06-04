@@ -1,0 +1,45 @@
+---
+name: Tohoku University
+description: Tohoku University public developer/API footprint review for APIs.json cataloging.
+url: https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/review.yml
+created: '2026-06-03'
+modified: '2026-06-03'
+reviews:
+  - date: '2026-06-03'
+    rating: 2
+    summary: >-
+      No central developer portal, self-service API program, open-data platform,
+      or documented SSO/OAuth client registration was found for Tohoku University.
+      The one clearly public, documented, machine-readable API is the TOUR
+      institutional repository OAI-PMH 2.0 endpoint, which I verified live
+      (Identify and ListMetadataFormats both returned valid OAI-PMH XML; formats
+      include oai_dc, JPCOAR 1.0/2.0, DDI, LOM). The library OPAC is a public
+      web search interface but no documented API was confirmed; the WEKO3 search
+      endpoint returned HTTP 400 and is not cataloged as an API. Research code
+      lives in lab GitHub orgs (e.g. cl-tohoku NLP group), not a central org.
+      No endpoints were fabricated.
+    endpoints:
+      - url: https://tohoku.repo.nii.ac.jp/oai?verb=Identify
+        status: 200
+        note: Valid OAI-PMH Identify, repositoryName "Tohoku University Repository（TOUR）", protocol 2.0.
+      - url: https://tohoku.repo.nii.ac.jp/oai?verb=ListMetadataFormats
+        status: 200
+        note: Returns oai_dc, jpcoar_1.0, jpcoar_2.0, ddi, lom metadata formats.
+      - url: https://tohoku.repo.nii.ac.jp/
+        status: 200
+        note: TOUR repository human landing page (NII JAIRO Cloud / WEKO3).
+      - url: https://www.tohoku.ac.jp/en/
+        status: 200
+        note: Official English homepage; no developer/API or open-data link surfaced.
+      - url: https://www.library.tohoku.ac.jp/en/
+        status: 200
+        note: Library site; uses OPAC, no documented public API confirmed.
+      - url: https://tohoku.repo.nii.ac.jp/search?search_type=2&q=test
+        status: 400
+        note: WEKO3 search endpoint returned 400 Bad Request; not cataloged as an API.
+      - url: https://github.com/cl-tohoku
+        status: 200
+        note: Tohoku NLP research group GitHub org; not central institutional IT.
+      - url: https://www.linkedin.com/school/tohoku-univ/
+        status: 200
+        note: Official LinkedIn school page.

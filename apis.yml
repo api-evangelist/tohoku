@@ -1,0 +1,70 @@
+---
+aid: tohoku
+name: Tohoku University
+description: >-
+  Tohoku University is a national research university in Sendai, Japan, founded
+  in 1907 and ranked #107 in the QS World University Rankings 2025. Its public,
+  machine-readable developer footprint is centered on scholarly infrastructure
+  rather than a central developer portal: the TOUR (TOhoku University Repository)
+  institutional repository runs on NII's JAIRO Cloud (WEKO3) and exposes a
+  live OAI-PMH 2.0 endpoint for metadata harvesting. The library also operates a
+  public OPAC. No central, self-service API developer portal, open-data platform,
+  or SSO/OAuth client-registration program was found publicly documented; most
+  research-code APIs live in individual lab GitHub organizations.
+type: Index
+position: Consumer
+access: 3rd-Party
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/apis.yml
+tags:
+  - Education
+  - Higher Education
+  - University
+  - Research
+  - Japan
+  - Open Access
+  - Institutional Repository
+  - OAI-PMH
+  - Library
+created: '2026-06-03'
+modified: '2026-06-03'
+specificationVersion: '0.19'
+apis:
+  - aid: tohoku:tour-oai-pmh
+    name: TOUR Institutional Repository OAI-PMH
+    description: >-
+      OAI-PMH 2.0 metadata harvesting endpoint for TOUR (TOhoku University
+      Repository), the university's institutional repository hosted on NII
+      JAIRO Cloud (WEKO3). Verified live, returning a valid Identify response
+      ("Tohoku University Repository（TOUR）", protocol version 2.0). Supports
+      oai_dc (Dublin Core), JPCOAR (1.0/2.0), DDI 2.5, and IEEE LOM metadata
+      formats via standard verbs (Identify, ListMetadataFormats, ListRecords,
+      GetRecord, ListSets, ListIdentifiers).
+    humanURL: https://tohoku.repo.nii.ac.jp/
+    baseURL: https://tohoku.repo.nii.ac.jp/oai
+    tags: [ OAI-PMH, Institutional Repository, Open Access, Metadata, Research, JPCOAR ]
+    properties:
+      - type: Documentation
+        url: https://www.library.tohoku.ac.jp/support/openaccess/
+common:
+  - type: Website
+    url: https://www.tohoku.ac.jp/en/
+  - type: GitHub
+    url: https://github.com/cl-tohoku
+  - type: LinkedIn
+    url: https://www.linkedin.com/school/tohoku-univ/
+  - type: Library
+    url: https://www.library.tohoku.ac.jp/en/
+  - type: Catalog
+    url: https://opac.library.tohoku.ac.jp/opac/opac_search/?lang=1&smode=1
+  - type: Plans
+    url: plans/tohoku-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/tohoku-rate-limits.yml
+  - type: FinOps
+    url: finops/tohoku-finops.yml
+  - type: Review
+    url: review.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com
