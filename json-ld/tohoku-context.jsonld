@@ -1,0 +1,81 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "tohoku": "https://tohoku.repo.nii.ac.jp/vocab#",
+    "oai": "http://www.openarchives.org/OAI/2.0/",
+    "dc": "http://purl.org/dc/elements/1.1/",
+    "jpcoar": "https://irdb.nii.ac.jp/schema/jpcoar/2.0/",
+
+    "University": "schema:CollegeOrUniversity",
+    "name": "schema:name",
+    "alternateName": "schema:alternateName",
+    "description": "schema:description",
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "logo": {
+      "@id": "schema:logo",
+      "@type": "@id"
+    },
+    "foundingDate": "schema:foundingDate",
+    "location": "schema:location",
+    "department": "schema:department",
+    "subOrganization": "schema:subOrganization",
+    "email": "schema:email",
+
+    "Repository": "schema:DataCatalog",
+    "repositoryName": "oai:repositoryName",
+    "baseURL": {
+      "@id": "oai:baseURL",
+      "@type": "@id"
+    },
+    "protocolVersion": "oai:protocolVersion",
+    "earliestDatestamp": "oai:earliestDatestamp",
+    "granularity": "oai:granularity",
+    "adminEmail": "oai:adminEmail",
+    "metadataFormat": "oai:metadataPrefix",
+
+    "Record": "schema:CreativeWork",
+    "identifier": "dc:identifier",
+    "title": "dc:title",
+    "creator": "dc:creator",
+    "publisher": "dc:publisher",
+    "date": {
+      "@id": "dc:date",
+      "@type": "schema:Date"
+    },
+    "type": "dc:type",
+    "subject": "dc:subject",
+    "language": "dc:language",
+    "rights": "dc:rights"
+  },
+  "@type": "University",
+  "@id": "https://www.tohoku.ac.jp/en/",
+  "name": "Tohoku University",
+  "alternateName": "東北大学",
+  "description": "A national research university in Sendai, Japan, founded in 1907. Operates the TOUR institutional repository, which exposes a live OAI-PMH 2.0 metadata harvesting endpoint.",
+  "url": "https://www.tohoku.ac.jp/en/",
+  "foundingDate": "1907",
+  "email": "syskan@grp.tohoku.ac.jp",
+  "subOrganization": {
+    "@type": "Repository",
+    "repositoryName": "Tohoku University Repository (TOUR)",
+    "url": "https://tohoku.repo.nii.ac.jp/",
+    "baseURL": "https://tohoku.repo.nii.ac.jp/oai",
+    "protocolVersion": "2.0",
+    "earliestDatestamp": "2016-06-09T00:00:00Z",
+    "granularity": "YYYY-MM-DDThh:mm:ssZ",
+    "adminEmail": "syskan@grp.tohoku.ac.jp",
+    "metadataFormat": [
+      "oai_dc",
+      "jpcoar_1.0",
+      "jpcoar_2.0",
+      "jpcoar_v1",
+      "jpcoar",
+      "ddi",
+      "lom"
+    ]
+  }
+}

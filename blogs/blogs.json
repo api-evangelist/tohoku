@@ -1,0 +1,14 @@
+{
+  "repo": "tohoku",
+  "feeds": [
+    {
+      "source": "https://www.tohoku.ac.jp/en/news/",
+      "feed_url": "https://www.tohoku.ac.jp/en/news/",
+      "title": "Tohoku University News",
+      "saved": 0,
+      "method": "none"
+    }
+  ],
+  "post_count": 0,
+  "fetched": "2026-06-03T00:00:00Z"
+}
