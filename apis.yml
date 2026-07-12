@@ -47,6 +47,8 @@ apis:
       - type: Documentation
         url: https://www.library.tohoku.ac.jp/support/openaccess/
 common:
+  - type: DomainSecurity
+    url: security/tohoku-domain-security.yml
   - type: Website
     url: https://www.tohoku.ac.jp/en/
   - type: GitHub
