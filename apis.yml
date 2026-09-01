@@ -1,22 +1,29 @@
 ---
 aid: tohoku
 name: Tohoku University
+x-type: university
+x-category: Public Research University
 description: >-
-  Tohoku University is a national research university in Sendai, Japan, founded
-  in 1907 and ranked #107 in the QS World University Rankings 2025. Its public,
-  machine-readable developer footprint is centered on scholarly infrastructure
-  rather than a central developer portal: the TOUR (TOhoku University Repository)
-  institutional repository runs on NII's JAIRO Cloud (WEKO3) and exposes a
-  live OAI-PMH 2.0 endpoint for metadata harvesting. The library also operates a
-  public OPAC. No central, self-service API developer portal, open-data platform,
-  or SSO/OAuth client-registration program was found publicly documented; most
-  research-code APIs live in individual lab GitHub organizations.
+  Tohoku University is a Japanese national research university in Sendai, founded in 1907, one of
+  the seven former Imperial Universities and a Designated National University. Its programmable
+  footprint is small, unevenly distributed, and mostly NOT operated by central IT — which is the
+  honest shape for a university, and the profile says so rather than padding it. Exactly one
+  unambiguously institution-operated API was found: jMorp, the Japanese Multi Omics Reference
+  Panel published by the Tohoku Medical Megabank Organization at jmorp.megabank.tohoku.ac.jp,
+  which answers anonymous GraphQL queries and full schema introspection over a 305-field read-only
+  query root. Everything else is a relationship rather than a contract: the TOUR institutional
+  repository is a tenant on NII's JAIRO Cloud (WEKO3) with a live OAI-PMH 2.0 endpoint; the
+  university operates its own SAML 2.0 Shibboleth Identity Provider registered in the GakuNin
+  national academic federation; and three of its units are Crossref DOI-registering members. There
+  is no central developer portal, no API key issuance, no open-data platform, no llms.txt, no MCP
+  server and no published OpenAPI anywhere on tohoku.ac.jp. Public course information is served as
+  HTML by the university's own QuickSyllabus, not as an API.
 type: Index
 deliveryModel:
   model: saas
   open_source: false
   commercial: true
-  callable_host: false
+  callable_host: true
   label: Hosted service · you call their endpoint
   confidence: medium
   source:
@@ -25,63 +32,178 @@ deliveryModel:
   method: derived
 accessModel:
   pricing: free
-  onboarding: unknown
+  onboarding: none
   trial: false
-  try_now: false
-  public: false
-  label: Free
-  confidence: medium
+  try_now: true
+  public: true
+  label: Free · anonymous, no registration
+  confidence: high
   source:
-  - plans
-  generated: '2026-07-22'
-  method: derived
+  - probed
+  generated: '2026-09-01'
+  method: probed
 position: Consumer
 access: 3rd-Party
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/tohoku.png
 url: https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/apis.yml
 tags:
-  - Education
-  - Higher Education
   - University
+  - Higher Education
+  - Education
   - Research
   - Japan
-  - Open Access
+  - National University
+  - Public Research University
+  - Genomics
+  - Research Data
   - Institutional Repository
-  - OAI-PMH
+  - Identity Federation
+  - Course Catalog
   - Library
+  - Open Access
+  - OAI-PMH
+  - GraphQL
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 specificationVersion: '0.23'
 apis:
+  - aid: tohoku:jmorp-graphql
+    name: jMorp GraphQL API (Tohoku Medical Megabank Organization)
+    x-operator: institution
+    description: >-
+      Public, anonymous, read-only GraphQL API for jMorp — the Japanese Multi Omics Reference Panel
+      published by the Tohoku Medical Megabank Organization (ToMMo), an institute of Tohoku
+      University. Runs on the university's own registrable domain, so the contract is genuinely
+      Tohoku's engineering rather than a vendor's product wearing the university's name. Verified
+      live on 2026-09-01: full __schema introspection returns 6.7 MB of JSON describing 4,470
+      types; query_root exposes 305 fields covering variants (clinvar, dbnsfp, dbsnp, GATK CNV,
+      ExpansionHunter), GENCODE gene models and cross-references (Entrez, UniProt, RefSeq, PDB,
+      HGNC), and dataset catalog entries with a dtaRequired flag for controlled-access data. There
+      is a subscription root but no mutation root. No authentication, no API key, no rate-limit
+      headers, no published OpenAPI and no vendor documentation of the interface.
+    humanURL: https://jmorp.megabank.tohoku.ac.jp/
+    baseURL: https://jmorp.megabank.tohoku.ac.jp/api/graphql
+    tags: [ GraphQL, Genomics, Multi-Omics, Research Data, Biobank, Open Access ]
+    properties:
+      - type: GraphQL
+        url: graphql/tohoku-jmorp-schema.graphql
+      - type: Documentation
+        url: graphql/tohoku-jmorp-graphql.md
+      - type: Examples
+        url: examples/tohoku-jmorp-datasets-example.json
+      - type: Examples
+        url: examples/tohoku-jmorp-gene-lookup-example.json
+      - type: Authentication
+        url: authentication/tohoku-authentication.yml
+      - type: Errors
+        url: errors/tohoku-jmorp-errors.yml
+      - type: Website
+        url: https://www.megabank.tohoku.ac.jp/english/
   - aid: tohoku:tour-oai-pmh
     name: TOUR Institutional Repository OAI-PMH
+    x-operator: tenant
     description: >-
-      OAI-PMH 2.0 metadata harvesting endpoint for TOUR (TOhoku University
-      Repository), the university's institutional repository hosted on NII
-      JAIRO Cloud (WEKO3). Verified live, returning a valid Identify response
-      ("Tohoku University Repository（TOUR）", protocol version 2.0). Supports
-      oai_dc (Dublin Core), JPCOAR (1.0/2.0), DDI 2.5, and IEEE LOM metadata
-      formats via standard verbs (Identify, ListMetadataFormats, ListRecords,
-      GetRecord, ListSets, ListIdentifiers).
+      OAI-PMH 2.0 metadata harvesting endpoint for TOUR (TOhoku University Repository). The
+      collection, the departmental set hierarchy and the administrative contact
+      (syskan@grp.tohoku.ac.jp) are Tohoku University's; the endpoint itself is NII JAIRO Cloud
+      (WEKO3) running on nii.ac.jp, so this is recorded as a tenant relationship and NII's contract
+      is deliberately NOT saved under this institution. Verified live 2026-09-01 — Identify returns
+      repositoryName "Tohoku University Repository（TOUR）", protocolVersion 2.0, earliestDatestamp
+      2016-06-09; ListMetadataFormats returns oai_dc, jpcoar_1.0, jpcoar_2.0, ddi and lom.
     humanURL: https://tohoku.repo.nii.ac.jp/
     baseURL: https://tohoku.repo.nii.ac.jp/oai
-    tags: [ OAI-PMH, Institutional Repository, Open Access, Metadata, Research, JPCOAR ]
+    tags: [ OAI-PMH, Institutional Repository, Open Access, Metadata, JPCOAR, Dublin Core ]
     properties:
       - type: Documentation
         url: https://www.library.tohoku.ac.jp/support/openaccess/
+      - type: Examples
+        url: examples/tohoku-tour-oai-pmh-identify-example.json
+  - aid: tohoku:gakunin-shibboleth-idp
+    name: GakuNin Shibboleth Identity Provider
+    x-operator: federation
+    description: >-
+      Tohoku University's own SAML 2.0 Identity Provider, registered in GakuNin — the Japanese
+      academic access-management federation operated by NII. entityID
+      https://idp.auth.tohoku.ac.jp/idp/shibboleth, OrganizationName "Tohoku University / 東北大学",
+      shibmd:Scope auth.tohoku.ac.jp, HTTP-Redirect binding for SingleSignOn and SingleLogout.
+      Confirmed in the GakuNin aggregate metadata on 2026-09-01. A federation is shared by
+      definition, but the IdP behind it is the institution's — this is one of the strongest
+      institution-operated machine-readable surfaces the university has. The SSO endpoint is
+      hosted for Tohoku by SECIOSS (slink.secioss.com), so the entity is theirs and the operation
+      is outsourced; both facts are recorded rather than one being hidden.
+    humanURL: https://www.gakunin.jp/en/
+    baseURL: https://metadata.gakunin.nii.ac.jp/gakunin-metadata.xml
+    tags: [ SAML, Shibboleth, Identity Federation, GakuNin, Single Sign-On ]
+    properties:
+      - type: Authentication
+        url: authentication/tohoku-authentication.yml
+      - type: Conformance
+        url: conformance/tohoku-conformance.yml
+  - aid: tohoku:crossref-membership
+    name: Crossref DOI Registration Membership
+    x-operator: registry
+    description: >-
+      Three Tohoku University units are Crossref members registering DOIs under their own prefixes,
+      verified against api.crossref.org on 2026-09-01 — member 622 Tohoku University Medical Press
+      (10.1620, 11,651 DOIs), member 1484 Mathematical Institute, Tohoku University (10.2748, 3,004
+      DOIs), member 2470 Graduate School of Information Sciences, Tohoku University (10.4036, 575
+      DOIs). This is a membership fact about the institution, not a contract it publishes;
+      Crossref's own API is Crossref's and is not saved here.
+    humanURL: https://www.crossref.org/members/prep/622
+    baseURL: https://api.crossref.org/members/622
+    tags: [ Crossref, DOI, Registry, Scholarly Publishing, Persistent Identifiers ]
+    properties:
+      - type: Conformance
+        url: conformance/tohoku-conformance.yml
+  - aid: tohoku:ror-registration
+    name: ROR Organization Record
+    x-operator: registry
+    description: >-
+      Tohoku University's Research Organization Registry record, ROR ID 01dq60k83, carrying the
+      English, romanized and Japanese names and the canonical institutional URL. The identifier
+      that makes the Crossref member records, the OAI-PMH metadata and the federation entity
+      joinable to one another. Verified 2026-09-01.
+    humanURL: https://ror.org/01dq60k83
+    baseURL: https://api.ror.org/organizations/01dq60k83
+    tags: [ ROR, Registry, Persistent Identifiers, Research Organizations ]
+    properties:
+      - type: Conformance
+        url: conformance/tohoku-conformance.yml
 common:
-  - type: DomainSecurity
-    url: security/tohoku-domain-security.yml
   - type: Website
     url: https://www.tohoku.ac.jp/en/
-  - type: GitHub
+  - type: GitHubOrganization
     url: https://github.com/cl-tohoku
   - type: LinkedIn
     url: https://www.linkedin.com/school/tohoku-univ/
-  - type: Library
-    url: https://www.library.tohoku.ac.jp/en/
-  - type: Catalog
+  - type: PrivacyPolicy
+    url: https://www.tohoku.ac.jp/en/misc/privacy_policy.html
+  - type: Support
+    url: https://www.tohoku.ac.jp/en/misc/contact.html
+  - type: Blog
+    url: https://www.tohoku.ac.jp/en/news/
+  - type: Documentation
+    url: https://www.library.tohoku.ac.jp/support/openaccess/
+  - type: ResearchRepository
+    url: https://tohoku.repo.nii.ac.jp/
+  - type: LibraryCatalog
     url: https://opac.library.tohoku.ac.jp/opac/opac_search/?lang=1&smode=1
+  - type: CourseCatalog
+    url: https://qsl.cds.tohoku.ac.jp/qsl/
+  - type: IdentityFederation
+    url: https://metadata.gakunin.nii.ac.jp/gakunin-metadata.xml
+  - type: ResearchComputing
+    url: https://www.cc.tohoku.ac.jp/en/
+  - type: AIPolicy
+    url: https://olg.cds.tohoku.ac.jp/forstaff/ai-tools
+  - type: OpenData
+    url: https://jmorp.megabank.tohoku.ac.jp/
+  - type: JSONLD
+    url: json-ld/tohoku-context.jsonld
+  - type: Conformance
+    url: conformance/tohoku-conformance.yml
+  - type: DomainSecurity
+    url: security/tohoku-domain-security.yml
   - type: Plans
     url: plans/tohoku-plans-pricing.yml
   - type: RateLimits
@@ -90,6 +212,55 @@ common:
     url: finops/tohoku-finops.yml
   - type: Review
     url: review.yml
+x-coverage:
+  state: covered
+  reason: covered
+  detail: >-
+    The full public surface was reached with no wall. One genuinely institution-operated API was
+    found and exercised anonymously end to end — the jMorp GraphQL endpoint at
+    jmorp.megabank.tohoku.ac.jp, including a complete 6.7 MB schema introspection and two live
+    domain queries that returned real data. The TOUR OAI-PMH endpoint answered Identify,
+    ListMetadataFormats and ListSets. Tohoku's Shibboleth IdP was confirmed inside the 5.65 MB
+    GakuNin aggregate metadata, and three Crossref memberships and the ROR record were confirmed
+    against their registries' APIs. The absences are real, not blocked: tohoku.ac.jp serves no
+    llms.txt, no /.well-known/security.txt, no OpenAPI, no MCP server, no agent card and no
+    developer portal; DataCite returns zero providers matching Tohoku; the UNIPA guest syllabus
+    entry point was in scheduled maintenance (HTTP 503) while QuickSyllabus, the university's own
+    public course catalog, served normally as HTML with no JSON interface behind it. Japanese-
+    language surfaces were searched as well as English ones, which is how the generative-AI
+    guidance and the QuickSyllabus entry point were found.
+  evidence:
+    - url: https://jmorp.megabank.tohoku.ac.jp/api/graphql
+      status: 200
+    - url: https://tohoku.repo.nii.ac.jp/oai?verb=Identify
+      status: 200
+    - url: https://metadata.gakunin.nii.ac.jp/gakunin-metadata.xml
+      status: 200
+    - url: https://api.crossref.org/members?query=tohoku
+      status: 200
+    - url: https://api.ror.org/organizations/01dq60k83
+      status: 200
+    - url: https://qsl.cds.tohoku.ac.jp/qsl/
+      status: 200
+    - url: https://opac.library.tohoku.ac.jp/opac/opac_search/?lang=1&smode=1
+      status: 200
+    - url: https://olg.cds.tohoku.ac.jp/forstaff/ai-tools
+      status: 200
+    - url: https://www.cc.tohoku.ac.jp/en/
+      status: 200
+    - url: https://api.datacite.org/providers?query=tohoku
+      status: 200
+    - url: https://unipa.bureau.tohoku.ac.jp/uprx/up/pk/pky001/Pky00101.xhtml?guestlogin=Kmh006
+      status: 503
+    - url: https://www.tohoku.ac.jp/llms.txt
+      status: 404
+    - url: https://www.tohoku.ac.jp/.well-known/security.txt
+      status: 404
+    - url: https://data.tohoku.ac.jp/
+      status: 0
+    - url: https://api.tohoku.ac.jp/
+      status: 0
+  checked: '2026-09-01'
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
