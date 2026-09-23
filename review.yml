@@ -3,8 +3,90 @@ name: Tohoku University
 description: Tohoku University public developer/API footprint review for APIs.json cataloging.
 url: https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/review.yml
 created: '2026-06-03'
-modified: '2026-06-03'
+modified: '2026-09-01'
 reviews:
+  - date: '2026-09-01'
+    rating: 3
+    summary: >-
+      University-pipeline re-profile with the operator axis applied before anything was saved.
+      The 2026-06-03 pass recorded a single surface — the TOUR OAI-PMH endpoint — and concluded
+      the university had no API. That conclusion was wrong in one important place and right
+      everywhere else. jMorp, the Japanese Multi Omics Reference Panel published by the Tohoku
+      Medical Megabank Organization on the university's own domain, exposes a public,
+      unauthenticated GraphQL API with introspection enabled: 4,470 types, a 305-field read-only
+      query root, a subscription root, no mutation root. It was exercised anonymously end to end
+      and is the one surface on this profile that is genuinely Tohoku University's engineering.
+      Two further institution-side relationships were found that a host-only reading misses: the
+      university's own SAML 2.0 Shibboleth Identity Provider registered in GakuNin
+      (entityID https://idp.auth.tohoku.ac.jp/idp/shibboleth, scope auth.tohoku.ac.jp), and three
+      Crossref DOI-registering memberships held by university units. TOUR was re-labelled
+      x-operator tenant — the collection and the admin contact are Tohoku's, the OAI-PMH
+      implementation is NII's, and NII's contract is deliberately not saved here. Nothing was
+      deleted to reach this shape. Absences confirmed and recorded rather than papered over: no
+      developer portal, no OpenAPI, no llms.txt, no security.txt, no MCP server, no open-data
+      portal (data./opendata./api.tohoku.ac.jp all NXDOMAIN), zero DataCite providers, no
+      evidenced ORCID institutional membership. Japanese-language surfaces were searched as well
+      as English, which is how the generative-AI guidance and the public QuickSyllabus course
+      catalog were found.
+    endpoints:
+      - url: https://jmorp.megabank.tohoku.ac.jp/api/graphql
+        status: 200
+        note: >-
+          Anonymous POST. Full __schema introspection returned 6,734,637 bytes; two domain queries
+          (dataset limit 3, gencodeGene BRCA1) returned real data. x-operator institution.
+      - url: https://jmorp.megabank.tohoku.ac.jp/api/user/profile/
+        status: 403
+        note: Authenticated portal tier exists; no public registration flow or scope documentation.
+      - url: https://tohoku.repo.nii.ac.jp/oai?verb=Identify
+        status: 200
+        note: >-
+          repositoryName "Tohoku University Repository（TOUR）", protocol 2.0, adminEmail
+          syskan@grp.tohoku.ac.jp, earliestDatestamp 2016-06-09. x-operator tenant (NII JAIRO Cloud / WEKO3).
+      - url: https://tohoku.repo.nii.ac.jp/oai?verb=ListMetadataFormats
+        status: 200
+        note: oai_dc, jpcoar_1.0, jpcoar_2.0, ddi, lom.
+      - url: https://metadata.gakunin.nii.ac.jp/gakunin-metadata.xml
+        status: 200
+        note: >-
+          5,653,150 bytes. Contains the Tohoku University IDPSSODescriptor and a stale
+          Corona Vaccine Reservation System SP entry. x-operator federation.
+      - url: https://api.crossref.org/members?query=tohoku
+        status: 200
+        note: >-
+          Members 622 (10.1620, 11,651 DOIs), 1484 (10.2748, 3,004), 2470 (10.4036, 575).
+          x-operator registry.
+      - url: https://api.ror.org/organizations/01dq60k83
+        status: 200
+        note: ROR record for Tohoku University. x-operator registry.
+      - url: https://api.datacite.org/providers?query=tohoku
+        status: 200
+        note: meta.total 0 — no DataCite provider or client. Japanese repositories mint via JaLC.
+      - url: https://qsl.cds.tohoku.ac.jp/qsl/
+        status: 200
+        note: >-
+          QuickSyllabus — the university's own public, no-login course catalog. Server-rendered
+          HTML across 17 faculty/graduate-school types for 2026; no JSON interface behind it.
+      - url: https://unipa.bureau.tohoku.ac.jp/uprx/up/pk/pky001/Pky00101.xhtml?guestlogin=Kmh006
+        status: 503
+        note: UNIPA guest syllabus entry point returned a scheduled-maintenance page.
+      - url: https://olg.cds.tohoku.ac.jp/forstaff/ai-tools
+        status: 200
+        note: Generative-AI guidance for teaching staff (Japanese). Recorded as AIPolicy.
+      - url: https://www.cc.tohoku.ac.jp/en/
+        status: 200
+        note: Cyberscience Center — research computing. No allocation or service-catalog API published.
+      - url: https://www.tohoku.ac.jp/llms.txt
+        status: 404
+        note: No llms.txt.
+      - url: https://www.tohoku.ac.jp/.well-known/security.txt
+        status: 404
+        note: No security.txt.
+      - url: https://data.tohoku.ac.jp/
+        status: 0
+        note: NXDOMAIN. Also opendata.tohoku.ac.jp and api.tohoku.ac.jp. No open-data portal exists.
+      - url: https://api.github.com/orgs/cl-tohoku
+        status: 200
+        note: '"Tohoku NLP Group, Tohoku University", 72 public repos. A research group, not central IT.'
   - date: '2026-06-03'
     rating: 2
     summary: >-

@@ -1,0 +1,49 @@
+{
+  "generated": "2026-09-01",
+  "method": "probed",
+  "source": "https://jmorp.megabank.tohoku.ac.jp/api/graphql",
+  "x-operator": "institution",
+  "note": "Live anonymous query against the jMorp GraphQL endpoint operated by the Tohoku Medical Megabank Organization (Tohoku University). Request and response are verbatim; nothing here is synthesized.",
+  "request": {
+    "method": "POST",
+    "url": "https://jmorp.megabank.tohoku.ac.jp/api/graphql",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "query": "query Datasets { dataset(limit: 3, orderBy: {datasetId: ASC}) { datasetId name shortDescription dtaRequired } }"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-request-id": "554a3f47-6802-4494-86a1-5096060b9ce1",
+      "server": "Apache"
+    },
+    "body": {
+      "data": {
+        "dataset": [
+          {
+            "datasetId": "igpmdb0001",
+            "name": "DNA methylation summary data of cord blood in every 2 gestational weeks",
+            "shortDescription": "DNA methylation summary data for cord blood, by 2-week gestational-age group",
+            "dtaRequired": false
+          },
+          {
+            "datasetId": "igpmdb0002",
+            "name": "DNA methylation summary data from Hepta family",
+            "shortDescription": "DNA methylation summary data from Hepta family",
+            "dtaRequired": false
+          },
+          {
+            "datasetId": "igpmdb0003",
+            "name": "DNA methylation summary data of 15 nucleated red blood cells",
+            "shortDescription": "DNA methylation summary data of nucleated red blood cells",
+            "dtaRequired": false
+          }
+        ]
+      }
+    }
+  }
+}

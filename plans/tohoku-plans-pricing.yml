@@ -4,23 +4,29 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Tohoku University
 providerId: tohoku
 created: '2026-06-03'
-modified: '2026-06-03'
-reconciled: false
+modified: '2026-09-01'
+reconciled: true
+generated: '2026-09-01'
+method: derived
+x-derived-from: >-
+  Corrected against live probes run 2026-09-01. The 2026-06-03 scaffold implied library, course
+  and open-metadata API products that do not exist; the actual free surfaces are named instead.
 tags:
 - Education
 - Higher Education
 - University
 - Plans
 description: >-
-  Tohoku University is a non-commercial higher-education institution; its APIs are not sold
-  as a commercial product. Public APIs (library, repository, course, and open-metadata
-  interfaces) are offered free of charge, typically for non-commercial use. Most
-  administrative and identity APIs are not openly self-service and require institutional
-  affiliation, credentials, or federation membership rather than a paid plan.
+  Tohoku University sells nothing programmable and publishes no pricing, no plan tiers and no
+  terms of use for any API. The two surfaces a member of the public can call are free and
+  anonymous: the jMorp GraphQL endpoint (institution-operated, no key, no registration) and the
+  TOUR OAI-PMH endpoint (tenant on NII JAIRO Cloud, open by protocol). The gated tier is not a
+  paid one — controlled-access jMorp datasets are flagged Dataset.dtaRequired and released through
+  a Data Transfer Agreement, which is paperwork rather than a plan, and the university's SAML IdP
+  gates services by institutional affiliation rather than payment.
 notes: >-
-  No published per-seat or per-call commercial pricing. "Free / Open" reflects open
-  public endpoints; "Affiliation / Credentialed" reflects access gated by institutional
-  identity rather than payment.
+  There is no commercial plan to describe. "Free / Open" below is the observed state of the two
+  anonymous endpoints, not an offer the university publishes.
 sources:
 - https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/apis.yml
 plans:

@@ -1,0 +1,33 @@
+{
+  "generated": "2026-09-01",
+  "method": "probed",
+  "source": "https://jmorp.megabank.tohoku.ac.jp/api/graphql",
+  "x-operator": "institution",
+  "note": "Live anonymous gene lookup against jMorp. Demonstrates the Hasura-style where/limit argument grammar the whole 305-field query root shares.",
+  "request": {
+    "method": "POST",
+    "url": "https://jmorp.megabank.tohoku.ac.jp/api/graphql",
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "query": "query Gene { gencodeGene(where: {gencodeSymbol: {_eq: \"BRCA1\"}}, limit: 2) { gencodeGeneIdBase gencodeSymbol gencodeGeneType gencodeLevel hgncId } }"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "gencodeGene": [
+          {
+            "gencodeGeneIdBase": "ENSG00000012048",
+            "gencodeSymbol": "BRCA1",
+            "gencodeGeneType": "protein_coding",
+            "gencodeLevel": "2",
+            "hgncId": "HGNC:1100"
+          }
+        ]
+      }
+    }
+  }
+}

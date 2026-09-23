@@ -4,29 +4,47 @@ schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main
 provider: Tohoku University
 providerId: tohoku
 created: '2026-06-03'
-modified: '2026-06-03'
-reconciled: false
+modified: '2026-09-01'
+reconciled: true
+generated: '2026-09-01'
+method: derived
+x-derived-from: >-
+  Corrected against live probes run 2026-09-01. The 2026-06-03 scaffold named IIIF and course-data
+  APIs that do not exist on this institution's surface, and asserted a 429 throttled response that
+  was never observed. Both removed.
 tags:
 - Education
 - Higher Education
 - University
 - Rate Limiting
 description: >-
-  Tohoku University does not publish a unified public rate-limit table across its APIs. Open
-  metadata and harvesting endpoints (OAI-PMH, IIIF, library) may throttle large-scale
-  or automated harvesting; clients should harvest politely, honor Retry-After, and
-  contact the relevant service for bulk access.
-notes: Confirm per-service limits with each API's documentation; harvest responsibly.
+  Tohoku University publishes no rate-limit documentation of any kind, for any surface. Probing on
+  2026-09-01 found no RateLimit-*, X-RateLimit-* or Retry-After header on any successful response
+  from the jMorp GraphQL endpoint or the TOUR OAI-PMH endpoint, and no throttle was triggered by
+  the probe volume used. Whether a limit exists is therefore UNKNOWN, not zero and not unlimited.
+  The only response header jMorp returns for correlation is x-request-id. Clients harvesting TOUR
+  should behave as OAI-PMH etiquette requires — resume tokens, off-peak, modest concurrency — but
+  that is convention, not a published policy of the university's.
+notes: >-
+  Nothing in this file is a provider claim. Every statement is either an observed absence or an
+  explicit unknown.
 sources:
 - https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/apis.yml
 responseCodes:
-  throttled: 429
+  throttled: unknown
+  note: >-
+    No 429 was observed and none is documented. The jMorp GraphQL endpoint returns HTTP 200 even
+    for validation failures, so a throttle there would most likely also arrive as a 200 with an
+    errors[] entry rather than as a status code.
 limits:
-- name: Default
-  scope: client
-  metric: requests-per-minute
-  limit: see service documentation
-  notes: No published global limit; large harvests may be rate-limited.
+- name: Unknown
+  scope: unknown
+  metric: unknown
+  limit: unknown
+  observed_headers: []
+  notes: >-
+    No published limit and no rate-limit header on any probed response
+    (https://jmorp.megabank.tohoku.ac.jp/api/graphql, https://tohoku.repo.nii.ac.jp/oai).
 policies:
 - name: Backoff Strategy
   description: Exponential backoff with jitter; honor Retry-After; harvest during off-peak hours.

@@ -1,12 +1,17 @@
 {
+  "x-provenance": {
+    "generated": "2026-09-01",
+    "method": "derived",
+    "x-derived-from": "live probes of the OAI-PMH Identify/ListMetadataFormats responses, the jMorp GraphQL introspection, and the ROR record, run 2026-09-01",
+    "x-source-url": "https://tohoku.repo.nii.ac.jp/oai?verb=Identify",
+    "note": "Authored by API Evangelist. Tohoku University publishes no JSON-LD context of its own; this is our description of its surfaces, not a provider artifact."
+  },
   "@context": {
     "@version": 1.1,
     "schema": "https://schema.org/",
-    "tohoku": "https://tohoku.repo.nii.ac.jp/vocab#",
     "oai": "http://www.openarchives.org/OAI/2.0/",
     "dc": "http://purl.org/dc/elements/1.1/",
     "jpcoar": "https://irdb.nii.ac.jp/schema/jpcoar/2.0/",
-
     "University": "schema:CollegeOrUniversity",
     "name": "schema:name",
     "alternateName": "schema:alternateName",
@@ -24,7 +29,6 @@
     "department": "schema:department",
     "subOrganization": "schema:subOrganization",
     "email": "schema:email",
-
     "Repository": "schema:DataCatalog",
     "repositoryName": "oai:repositoryName",
     "baseURL": {
@@ -36,7 +40,6 @@
     "granularity": "oai:granularity",
     "adminEmail": "oai:adminEmail",
     "metadataFormat": "oai:metadataPrefix",
-
     "Record": "schema:CreativeWork",
     "identifier": "dc:identifier",
     "title": "dc:title",
@@ -49,7 +52,19 @@
     "type": "dc:type",
     "subject": "dc:subject",
     "language": "dc:language",
-    "rights": "dc:rights"
+    "rights": "dc:rights",
+    "ror": "https://ror.org/",
+    "identifierScheme": "schema:identifier",
+    "sameAs": {
+      "@id": "schema:sameAs",
+      "@type": "@id"
+    },
+    "Api": "schema:WebAPI",
+    "operator": "schema:provider",
+    "documentation": {
+      "@id": "schema:documentation",
+      "@type": "@id"
+    }
   },
   "@type": "University",
   "@id": "https://www.tohoku.ac.jp/en/",
@@ -59,23 +74,37 @@
   "url": "https://www.tohoku.ac.jp/en/",
   "foundingDate": "1907",
   "email": "syskan@grp.tohoku.ac.jp",
-  "subOrganization": {
-    "@type": "Repository",
-    "repositoryName": "Tohoku University Repository (TOUR)",
-    "url": "https://tohoku.repo.nii.ac.jp/",
-    "baseURL": "https://tohoku.repo.nii.ac.jp/oai",
-    "protocolVersion": "2.0",
-    "earliestDatestamp": "2016-06-09T00:00:00Z",
-    "granularity": "YYYY-MM-DDThh:mm:ssZ",
-    "adminEmail": "syskan@grp.tohoku.ac.jp",
-    "metadataFormat": [
-      "oai_dc",
-      "jpcoar_1.0",
-      "jpcoar_2.0",
-      "jpcoar_v1",
-      "jpcoar",
-      "ddi",
-      "lom"
-    ]
-  }
+  "subOrganization": [
+    {
+      "@type": "Repository",
+      "repositoryName": "Tohoku University Repository (TOUR)",
+      "url": "https://tohoku.repo.nii.ac.jp/",
+      "baseURL": "https://tohoku.repo.nii.ac.jp/oai",
+      "protocolVersion": "2.0",
+      "earliestDatestamp": "2016-06-09T00:00:00Z",
+      "granularity": "YYYY-MM-DDThh:mm:ssZ",
+      "adminEmail": "syskan@grp.tohoku.ac.jp",
+      "metadataFormat": [
+        "oai_dc",
+        "jpcoar_1.0",
+        "jpcoar_2.0",
+        "ddi",
+        "lom"
+      ],
+      "operator": "National Institute of Informatics (JAIRO Cloud / WEKO3) — x-operator: tenant"
+    },
+    {
+      "@type": "Api",
+      "name": "jMorp GraphQL API",
+      "@id": "https://jmorp.megabank.tohoku.ac.jp/api/graphql",
+      "url": "https://jmorp.megabank.tohoku.ac.jp/",
+      "description": "Public, anonymous, read-only GraphQL API for the Japanese Multi Omics Reference Panel, published by the Tohoku Medical Megabank Organization on Tohoku University’s own domain. 305 query-root fields, introspection enabled, no mutation root.",
+      "operator": "Tohoku Medical Megabank Organization, Tohoku University — x-operator: institution",
+      "documentation": "https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/graphql/tohoku-jmorp-graphql.md"
+    }
+  ],
+  "sameAs": [
+    "https://ror.org/01dq60k83",
+    "https://www.wikidata.org/wiki/Q863449"
+  ]
 }

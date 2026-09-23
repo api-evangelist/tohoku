@@ -1,0 +1,46 @@
+generated: '2026-09-01'
+method: derived
+x-derived-from: live probe — deliberately malformed requests sent 2026-09-01
+x-source-url: https://jmorp.megabank.tohoku.ac.jp/api/graphql
+source: https://jmorp.megabank.tohoku.ac.jp/api/graphql
+x-operator: institution
+note: >-
+  Error semantics observed by sending deliberately malformed requests to the jMorp GraphQL endpoint
+  on 2026-09-01. ToMMo publishes no error reference, so everything here is measured, not quoted.
+  The shape is GraphQL-over-HTTP with a Hasura engine behind it: transport status stays 200 and the
+  fault is carried in errors[].extensions.code.
+transport:
+  status_on_error: 200
+  detail: >-
+    Both a schema-validation failure and an unsupported-operation failure returned HTTP 200. A
+    client that branches on HTTP status alone will read every jMorp error as a success. Callers
+    must inspect the errors[] array.
+  correlation_header: x-request-id
+  correlation_detail: Every response carries an x-request-id UUID, usable when reporting a fault.
+errors:
+- code: validation-failed
+  http_status: 200
+  trigger: Query selects a field that does not exist on query_root.
+  request: '{"query":"{ notAField { id } }"}'
+  response: '{"errors":[{"message":"field ''notAField'' not found in type: ''query_root''","extensions":{"path":"$.selectionSet.notAField","code":"validation-failed"}}]}'
+  fields:
+  - message
+  - extensions.path
+  - extensions.code
+- code: not-supported
+  http_status: 200
+  trigger: GET on the endpoint without a query (the engine treats it as an automatic persisted query).
+  request: 'GET https://jmorp.megabank.tohoku.ac.jp/api/graphql'
+  response: '{"errors":[{"message":"PersistedQueryNotSupported","extensions":{"path":"$","code":"not-supported"}}]}'
+  detail: Automatic persisted queries are disabled; POST with an inline query is the only usable form.
+- code: '403'
+  http_status: 403
+  trigger: Anonymous request to the authenticated portal surface.
+  request: 'GET https://jmorp.megabank.tohoku.ac.jp/api/user/profile/'
+  detail: >-
+    The REST-shaped portal endpoints do use real HTTP status codes; only the GraphQL endpoint
+    collapses everything to 200.
+not_observed:
+- No rate-limit response was produced by the probes run, and no RateLimit or Retry-After headers
+  were returned on any successful call. Whether a throttle exists is unknown.
+- No documented error catalogue, no problem+json (RFC 9457), no error code registry.

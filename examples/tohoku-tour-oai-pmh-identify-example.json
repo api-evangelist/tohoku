@@ -1,0 +1,26 @@
+{
+  "generated": "2026-09-01",
+  "method": "probed",
+  "source": "https://tohoku.repo.nii.ac.jp/oai?verb=Identify",
+  "x-operator": "tenant",
+  "note": "TOUR (Tohoku University Repository) runs on NII's JAIRO Cloud / WEKO3. The data, the collection and the administrative contact are Tohoku University's; the OAI-PMH implementation is NII's. Recorded as a tenant relationship, not as a Tohoku-authored contract.",
+  "request": {
+    "method": "GET",
+    "url": "https://tohoku.repo.nii.ac.jp/oai?verb=Identify"
+  },
+  "response": {
+    "status": 200,
+    "content_type": "text/xml",
+    "parsed": {
+      "repositoryName": "Tohoku University Repository（TOUR）",
+      "adminEmail": "syskan@grp.tohoku.ac.jp",
+      "baseURL": "https://tohoku.repo.nii.ac.jp/oai",
+      "protocolVersion": "2.0",
+      "earliestDatestamp": "2016-06-09T00:00:00Z",
+      "deletedRecord": "transient",
+      "granularity": "YYYY-MM-DDThh:mm:ssZ"
+    },
+    "metadata_formats": ["oai_dc", "jpcoar_1.0", "jpcoar_2.0", "ddi", "lom"],
+    "note": "adminEmail resolves to grp.tohoku.ac.jp — the university's own library systems group administers the tenant."
+  }
+}

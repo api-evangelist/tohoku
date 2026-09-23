@@ -1,0 +1,179 @@
+generated: '2026-09-01'
+method: derived
+x-derived-from: live probes of each cited location, run 2026-09-01
+x-source-url: https://jmorp.megabank.tohoku.ac.jp/api/graphql
+regime: education
+source: >-
+  Every entry below cites a location that was fetched or queried live on 2026-09-01. Conformance is
+  read from the surface itself — an OAI-PMH Identify response, a SAML EntityDescriptor, a Crossref
+  member record, a GraphQL introspection result — never from a prose claim on a web page. Standards
+  in the Kin Score `education` regime that Tohoku University does not implement are recorded as
+  conforms: false rather than omitted, so the absence is measurable.
+standards:
+- id: oai-pmh
+  name: Open Archives Initiative Protocol for Metadata Harvesting 2.0
+  conforms: true
+  x-operator: tenant
+  evidence:
+    location: https://tohoku.repo.nii.ac.jp/oai
+    detail: >-
+      ?verb=Identify returns protocolVersion 2.0, repositoryName "Tohoku University Repository
+      （TOUR）", adminEmail syskan@grp.tohoku.ac.jp, earliestDatestamp 2016-06-09T00:00:00Z,
+      deletedRecord transient, granularity YYYY-MM-DDThh:mm:ssZ. ?verb=ListMetadataFormats returns
+      oai_dc, jpcoar_1.0, jpcoar_2.0, ddi and lom. ?verb=ListSets returns the university's
+      departmental set hierarchy. All three verbs HTTP 200 with valid OAI-PMH XML.
+    caveat: >-
+      The endpoint is implemented by NII JAIRO Cloud (WEKO3) on nii.ac.jp, not by Tohoku
+      University. The collection, the sets and the administrative contact are the university's;
+      the protocol implementation is NII's.
+- id: shibboleth
+  name: Shibboleth Identity Provider (GakuNin federation)
+  conforms: true
+  x-operator: federation
+  evidence:
+    location: https://metadata.gakunin.nii.ac.jp/gakunin-metadata.xml
+    detail: >-
+      An EntityDescriptor with entityID https://idp.auth.tohoku.ac.jp/idp/shibboleth carries an
+      IDPSSODescriptor, OrganizationName "Tohoku University" / "東北大学", OrganizationURL
+      http://www.tohoku.ac.jp/ and shibmd:Scope auth.tohoku.ac.jp. Registered in GakuNin, the
+      Japanese academic access-management federation operated by NII. Aggregate metadata fetched
+      2026-09-01, HTTP 200, 5,653,150 bytes.
+- id: saml
+  name: SAML 2.0 Web Browser SSO
+  conforms: true
+  x-operator: federation
+  evidence:
+    location: https://metadata.gakunin.nii.ac.jp/gakunin-metadata.xml
+    detail: >-
+      The Tohoku IdP declares urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect for both
+      SingleSignOnService (https://slink.secioss.com/saml/saml2/idp/SSOService.php/auth.tohoku.ac.jp)
+      and SingleLogoutService. A second Tohoku University entity is registered as an SP —
+      https://sp.corona-vaccine.hosp.tohoku.ac.jp/shibboleth-sp, "Corona Vaccine Reservation
+      System" — declaring HTTP-POST, HTTP-Artifact, POST-SimpleSign and the SAML 1.0 profiles;
+      its host no longer resolves, so that entry is stale metadata for a retired service.
+- id: crossref
+  name: Crossref DOI registration
+  conforms: true
+  x-operator: registry
+  evidence:
+    location: https://api.crossref.org/members?query=tohoku
+    detail: >-
+      Three Crossref member records belong to Tohoku University units and carry live DOI counts,
+      queried 2026-09-01 — member 622 Tohoku University Medical Press (prefix 10.1620, 11,651
+      DOIs), member 1484 Mathematical Institute, Tohoku University (prefix 10.2748, 3,004 DOIs),
+      member 2470 Graduate School of Information Sciences, Tohoku University (prefix 10.4036, 575
+      DOIs). Membership is a fact about the institution; the Crossref API contract is Crossref's
+      and is not saved here.
+- id: ror
+  name: Research Organization Registry
+  conforms: true
+  x-operator: registry
+  evidence:
+    location: https://api.ror.org/organizations/01dq60k83
+    detail: >-
+      ROR ID https://ror.org/01dq60k83, names "Tohoku University" / "Tōhoku daigaku" / "東北大学",
+      link http://www.tohoku.ac.jp/en/. HTTP 200 on both the ROR landing page and the v1/v2 API
+      records. ROR is not in the education regime standards[] but is the identifier that makes the
+      Crossref and OAI-PMH records joinable.
+- id: graphql
+  name: GraphQL (June 2018 spec, Hasura engine)
+  conforms: true
+  x-operator: institution
+  evidence:
+    location: graphql/tohoku-jmorp-schema.graphql
+    detail: >-
+      https://jmorp.megabank.tohoku.ac.jp/api/graphql answers anonymous POST queries and a full
+      __schema introspection (6.7 MB JSON). query_root exposes 305 fields; subscription_root is
+      present; there is no mutation root. Errors follow the GraphQL-over-HTTP errors[] envelope
+      with extensions.code (validation-failed, not-supported). This is the one surface on this
+      profile that is Tohoku University's own engineering.
+- id: datacite
+  name: DataCite DOI registration
+  conforms: false
+  evidence:
+    location: https://api.datacite.org/providers?query=tohoku
+    detail: >-
+      Zero DataCite providers or clients match "tohoku" (meta.total 0, HTTP 200, 2026-09-01).
+      Japanese repositories mint DOIs through JaLC (Japan Link Center) rather than DataCite, and
+      the DOIs surfaced in TOUR's OAI records are third-party publisher DOIs (10.1093, 10.1103,
+      10.1186, 10.3389, 10.48550 …), not TOUR-minted ones.
+- id: orcid
+  name: ORCID membership / member API
+  conforms: false
+  evidence:
+    location: https://info.orcid.org/member-list/
+    detail: >-
+      No institutional ORCID membership for Tohoku University could be evidenced from a
+      machine-readable source; the ORCID member-list page returned HTTP 404 to a direct filtered
+      fetch. Recorded as false rather than unknown so it does not read as a claim. Japanese ORCID
+      participation is commonly consortial via NII/JUSTICE, which would not surface as a
+      Tohoku-named member record.
+- id: lti
+  name: IMS/1EdTech Learning Tools Interoperability
+  conforms: false
+  evidence:
+    location: https://unipa.bureau.tohoku.ac.jp/uprx/
+    detail: >-
+      Tohoku's academic-affairs system is UNIPA (UNIVERSAL PASSPORT), self-hosted on the
+      university's own domain. No LTI platform metadata, no /.well-known/lti-platform-configuration
+      and no tool registration surface is published. The guest syllabus entry point returned HTTP
+      503 (scheduled-maintenance page) on 2026-09-01.
+- id: scim
+  name: SCIM 2.0 provisioning
+  conforms: false
+  evidence:
+    location: https://www.tohoku.ac.jp/
+    detail: No SCIM endpoint, ServiceProviderConfig or provisioning documentation found on any tohoku.ac.jp host.
+- id: oneroster
+  name: 1EdTech OneRoster
+  conforms: false
+  evidence:
+    location: https://www.tohoku.ac.jp/
+    detail: Not implemented. OneRoster is a K-12 rostering standard and is not used by Japanese national universities.
+- id: ed-fi
+  name: Ed-Fi Data Standard
+  conforms: false
+  evidence:
+    location: https://www.tohoku.ac.jp/
+    detail: Not implemented. Ed-Fi is a US K-12 standard with no Japanese higher-education deployment.
+- id: caliper
+  name: 1EdTech Caliper Analytics
+  conforms: false
+  evidence:
+    location: https://www.tohoku.ac.jp/
+    detail: No Caliper event store or sensor endpoint published.
+- id: qti
+  name: 1EdTech Question and Test Interoperability
+  conforms: false
+  evidence:
+    location: https://www.tohoku.ac.jp/
+    detail: No QTI import/export surface published.
+metadata_profiles:
+- id: jpcoar
+  name: JPCOAR Schema 1.0 / 2.0
+  conforms: true
+  x-operator: tenant
+  evidence:
+    location: https://tohoku.repo.nii.ac.jp/oai?verb=ListMetadataFormats
+    detail: TOUR serves jpcoar_1.0 and jpcoar_2.0 alongside oai_dc — the Japanese national repository metadata profile.
+- id: dublin-core
+  name: Dublin Core Metadata Element Set (oai_dc)
+  conforms: true
+  x-operator: tenant
+  evidence:
+    location: https://tohoku.repo.nii.ac.jp/oai?verb=ListRecords&metadataPrefix=oai_dc
+    detail: oai_dc records returned for the full repository.
+- id: ddi
+  name: Data Documentation Initiative 2.5
+  conforms: true
+  x-operator: tenant
+  evidence:
+    location: https://tohoku.repo.nii.ac.jp/oai?verb=ListMetadataFormats
+    detail: ddi advertised as a supported metadataPrefix.
+- id: ieee-lom
+  name: IEEE Learning Object Metadata
+  conforms: true
+  x-operator: tenant
+  evidence:
+    location: https://tohoku.repo.nii.ac.jp/oai?verb=ListMetadataFormats
+    detail: lom advertised as a supported metadataPrefix.
