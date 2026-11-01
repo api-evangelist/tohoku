@@ -1,4 +1,4 @@
-# Tohoku University (tohoku)
+# Tohoku University
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,86 +64,131 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Tohoku University is a Japanese national research university in Sendai, founded in 1907 — one of the seven former Imperial Universities and a Designated National University. This repository catalogs the university's public, machine-readable footprint as an [APIs.json](https://apisjson.org) profile, and it settles **who operates each surface** before crediting any of them to the institution.
+Tohoku University is a Japanese national research university in Sendai, founded in 1907, one of the seven former Imperial Universities and a Designated National University. Its programmable footprint is small, unevenly distributed, and mostly NOT operated by central IT — which is the honest shape for a university, and the profile says so rather than padding it. Exactly one unambiguously institution-operated API was found: jMorp, the Japanese Multi Omics Reference Panel published by the Tohoku Medical Megabank Organization at jmorp.megabank.tohoku.ac.jp, which answers anonymous GraphQL queries and full schema introspection over a 305-field read-only query root. Everything else is a relationship rather than a contract: the TOUR institutional repository is a tenant on NII's JAIRO Cloud (WEKO3) with a live OAI-PMH 2.0 endpoint; the university operates its own SAML 2.0 Shibboleth Identity Provider registered in the GakuNin national academic federation; and three of its units are Crossref DOI-registering members. There is no central developer portal, no API key issuance, no open-data platform, no llms.txt, no MCP server and no published OpenAPI anywhere on tohoku.ac.jp. Public course information is served as HTML by the university's own QuickSyllabus, not as an API.
 
-The honest shape is small and uneven. Exactly one unambiguously institution-operated API was found: **jMorp**, the Japanese Multi Omics Reference Panel published by the Tohoku Medical Megabank Organization, which answers anonymous GraphQL queries and full schema introspection. Everything else is a *relationship* rather than a contract — a tenant repository on NII's JAIRO Cloud, a Shibboleth IdP in the GakuNin federation, Crossref and ROR registrations. There is no central developer portal, no API key issuance, no open-data platform, no `llms.txt`, no MCP server and no published OpenAPI anywhere on `tohoku.ac.jp`.
+**Areas:** University · Higher Education · Education · Research · Japan · National University · Public Research University · Genomics · Research Data · Institutional Repository · Identity Federation · Course Catalog
 
-- APIs.json: https://raw.githubusercontent.com/api-evangelist/tohoku/refs/heads/main/apis.yml
-- Run with Naftiko: https://github.com/naftiko/fleet?utm_source=api-evangelist&utm_medium=readme&utm_campaign=tohoku-api-evangelist&utm_content=repo
+## Tohoku University on APIs.io
 
-## Type
+Everything profiled for Tohoku University is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/tohoku/](https://apis.io/providers/tohoku/)** — or go straight to one of the APIs or properties below.
 
-- University / Public Research University / Index / Consumer / 3rd-Party
+### APIs (5)
 
-## Tags
+- [jMorp GraphQL API (Tohoku Medical Megabank Organization)](https://apis.io/apis/tohoku/jmorp-graphql/) — Public, anonymous, read-only GraphQL API for jMorp — the Japanese Multi Omics Reference Panel published by the Tohoku Medical Megabank Organization (ToMMo),…
+- [TOUR Institutional Repository OAI-PMH](https://apis.io/apis/tohoku/tour-oai-pmh/) — OAI-PMH 2.0 metadata harvesting endpoint for TOUR (TOhoku University Repository). The collection, the departmental set hierarchy and the administrative…
+- [GakuNin Shibboleth Identity Provider](https://apis.io/apis/tohoku/gakunin-shibboleth-idp/) — Tohoku University's own SAML 2.0 Identity Provider, registered in GakuNin — the Japanese academic access-management federation operated by NII. entityID…
+- [Crossref DOI Registration Membership](https://apis.io/apis/tohoku/crossref-membership/) — Three Tohoku University units are Crossref members registering DOIs under their own prefixes, verified against api.crossref.org on 2026-09-01 — member 622…
+- [ROR Organization Record](https://apis.io/apis/tohoku/ror-registration/) — Tohoku University's Research Organization Registry record, ROR ID 01dq60k83, carrying the English, romanized and Japanese names and the canonical…
 
-University, Higher Education, Education, Research, Japan, National University, Public Research University, Genomics, Research Data, Institutional Repository, Identity Federation, Course Catalog, Library, Open Access, OAI-PMH, GraphQL
+### Published properties
 
-## Surfaces, and who operates them
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Every entry carries an operator. `institution` means Tohoku University runs the thing the contract describes; `tenant` means the institution's data on someone else's platform; `federation` and `registry` mean the institution's own relationship inside a surface that is shared by design.
+#### GraphQL (1)
 
-| Surface | Operator | Verified |
-|---|---|---|
-| **jMorp GraphQL API** — `https://jmorp.megabank.tohoku.ac.jp/api/graphql` | `institution` | Anonymous introspection (6.7 MB, 4,470 types, 305 query-root fields) plus two live domain queries, 2026-09-01 |
-| **TOUR Institutional Repository OAI-PMH** — `https://tohoku.repo.nii.ac.jp/oai` | `tenant` | Identify / ListMetadataFormats / ListSets, HTTP 200, 2026-09-01 |
-| **GakuNin Shibboleth IdP** — `https://idp.auth.tohoku.ac.jp/idp/shibboleth` | `federation` | EntityDescriptor found in the GakuNin aggregate metadata, 2026-09-01 |
-| **Crossref DOI membership** — members 622, 1484, 2470 | `registry` | `api.crossref.org`, live DOI counts, 2026-09-01 |
-| **ROR record** — `https://ror.org/01dq60k83` | `registry` | `api.ror.org`, HTTP 200, 2026-09-01 |
+GraphQL schemas.
 
-### jMorp — the one API that is actually theirs
+- [jMorp GraphQL API — Tohoku University (ToMMo)](https://apis.io/graphqls/tohoku/tohoku-jmorp-graphql/)
 
-Published by the Tohoku Medical Megabank Organization (ToMMo), an institute of the university, on the university's own registrable domain. Read-only: a `query_root` with 305 fields and a `subscription_root`, no mutation root. Coverage spans variants (ClinVar, dbNSFP, dbSNP, GATK CNV, ExpansionHunter), GENCODE gene models with Entrez / UniProt / RefSeq / PDB / HGNC cross-references, and a dataset catalog whose `dtaRequired` flag marks controlled-access data. No authentication, no API key, no rate-limit headers, no published OpenAPI, and no vendor documentation of the interface — the schema in this repository is **our** reconstruction from introspection, marked `method: probed`.
+#### JSON-LD (1)
 
-- Schema (SDL, 1.36 MB): [graphql/tohoku-jmorp-schema.graphql](graphql/tohoku-jmorp-schema.graphql)
-- Notes: [graphql/tohoku-jmorp-graphql.md](graphql/tohoku-jmorp-graphql.md)
-- Examples: [datasets](examples/tohoku-jmorp-datasets-example.json), [gene lookup](examples/tohoku-jmorp-gene-lookup-example.json)
+Linked-data contexts for the provider's vocabulary.
 
-## Artifacts
+- [Tohoku Context](https://apis.io/jsonld/tohoku/tohoku-context/)
 
-- Authentication: [authentication/tohoku-authentication.yml](authentication/tohoku-authentication.yml)
-- Errors: [errors/tohoku-jmorp-errors.yml](errors/tohoku-jmorp-errors.yml)
-- Conformance: [conformance/tohoku-conformance.yml](conformance/tohoku-conformance.yml)
-- Plans: [plans/tohoku-plans-pricing.yml](plans/tohoku-plans-pricing.yml)
-- Rate limits: [rate-limits/tohoku-rate-limits.yml](rate-limits/tohoku-rate-limits.yml)
-- FinOps: [finops/tohoku-finops.yml](finops/tohoku-finops.yml)
-- Review: [review.yml](review.yml)
+#### Examples (3)
 
-## Education-regime conformance
+Example requests and responses.
 
-Scored against the Kin Score `education` regime. Implemented: **OAI-PMH 2.0** (tenant), **Shibboleth** and **SAML 2.0** (federation), **Crossref** (registry), plus JPCOAR 1.0/2.0, Dublin Core, DDI and IEEE LOM metadata profiles on the repository. Not implemented: **DataCite** (zero providers match Tohoku — Japanese repositories mint through JaLC), **ORCID** (no institutional membership evidenced from a machine-readable source), **LTI**, **SCIM**, **OneRoster**, **Ed-Fi**, **Caliper**, **QTI**. Absences are recorded as `conforms: false` with evidence rather than omitted.
+- [Tohoku Jmorp Datasets Example](https://apis.io/examples/tohoku/tohoku-jmorp-datasets-example/)
+- [Tohoku Jmorp Gene Lookup Example](https://apis.io/examples/tohoku/tohoku-jmorp-gene-lookup-example/)
+- [Tohoku Tour Oai Pmh Identify Example](https://apis.io/examples/tohoku/tohoku-tour-oai-pmh-identify-example/)
 
-## Common Properties
+#### Security (2)
 
-- Website: https://www.tohoku.ac.jp/en/
-- GitHub organization (Tohoku NLP Group, 72 public repos): https://github.com/cl-tohoku
-- LinkedIn: https://www.linkedin.com/school/tohoku-univ/
-- Privacy policy: https://www.tohoku.ac.jp/en/misc/privacy_policy.html
-- Support / contact: https://www.tohoku.ac.jp/en/misc/contact.html
-- News: https://www.tohoku.ac.jp/en/news/
-- Open-access documentation: https://www.library.tohoku.ac.jp/support/openaccess/
-- Research repository (TOUR): https://tohoku.repo.nii.ac.jp/
-- Library catalog (OPAC): https://opac.library.tohoku.ac.jp/opac/opac_search/?lang=1&smode=1
-- Course catalog (QuickSyllabus, no login): https://qsl.cds.tohoku.ac.jp/qsl/
-- Identity federation (GakuNin metadata): https://metadata.gakunin.nii.ac.jp/gakunin-metadata.xml
-- Research computing (Cyberscience Center): https://www.cc.tohoku.ac.jp/en/
-- AI policy (generative-AI guidance for staff): https://olg.cds.tohoku.ac.jp/forstaff/ai-tools
+Authentication, trust centre, and vulnerability disclosure.
 
-## Timestamps
+- [Tohoku Authentication](https://apis.io/security/tohoku/tohoku-authentication/)
+- [Tohoku Domain Security](https://apis.io/security/tohoku/tohoku-domain-security/)
 
-- Created: 2026-06-03
-- Modified: 2026-09-01
+#### Plans and pricing (1)
 
-## Notes
+Published plans, tiers and prices.
 
-- Only publicly verifiable resources are cataloged, and every claim here was re-probed on 2026-09-01. No endpoints were fabricated.
-- **No vendor contract is saved under this institution.** TOUR's OAI-PMH endpoint is implemented by NII JAIRO Cloud (WEKO3); the relationship is recorded, the vendor's contract is not.
-- The GakuNin IdP entity is Tohoku University's, but its SSO endpoint is hosted for the university by SECIOSS (`slink.secioss.com`). Both facts are recorded rather than one being hidden.
-- A second Tohoku University entity is registered in GakuNin as a Service Provider — the Corona Vaccine Reservation System — whose host no longer resolves. It is stale federation metadata for a retired service.
-- `cl-tohoku` is the Tohoku NLP research group's GitHub organization, not central institutional IT. Other research code lives in individual lab organizations.
-- The library OPAC is a public web interface with no documented API. QuickSyllabus is a public, no-login course catalog served as HTML with no JSON interface behind it. The UNIPA guest syllabus entry point was in scheduled maintenance (HTTP 503) at the time of the re-profile.
-- `data.tohoku.ac.jp`, `opendata.tohoku.ac.jp` and `api.tohoku.ac.jp` do not resolve. There is no open-data portal.
+- [Tohoku Plans Pricing](https://apis.io/plans/tohoku/tohoku-plans-pricing/)
 
-## Maintainers
+#### Rate limits (1)
 
-- Kin Lane — kin@apievangelist.com
+Published request limits.
+
+- [Tohoku Rate Limits](https://apis.io/rate-limits/tohoku/tohoku-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Tohoku Finops](https://apis.io/finops/tohoku/tohoku-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.tohoku.ac.jp/en/)
+- [Documentation](https://www.library.tohoku.ac.jp/support/openaccess/)
+- [Support](https://www.tohoku.ac.jp/en/misc/contact.html)
+- [Blog](https://www.tohoku.ac.jp/en/news/)
+- [Privacy policy](https://www.tohoku.ac.jp/en/misc/privacy_policy.html)
+- [GitHub](https://github.com/cl-tohoku)
+
+## API Evangelist rating
+
+**Kin Score 23.0** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 20.4 |
+| Contract governance | 4.5 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 28.6 |
+| Access clarity | 15.8 |
+
+**Agent readiness 4.4** — human-only
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | — |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | documented (partial credit) |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 20.6** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/tohoku/](https://apis.io/providers/tohoku/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Tohoku University: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/tohoku/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
